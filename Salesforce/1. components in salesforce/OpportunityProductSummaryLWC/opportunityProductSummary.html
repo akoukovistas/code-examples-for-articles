@@ -1,0 +1,23 @@
+<template>
+    <lightning-card  title="Product Summary">
+        <template if:true={hasData} for:each={productFamilies} for:item="family">
+            <div key={family.id} class='slds-p-around_x-small'>
+                <div class="slds-text-title_caps">{family.Name}</div>
+                <lightning-datatable
+                        key-field="id"
+                        data={family.dataset}
+                        columns={columns}
+                        hide-checkbox-column="true"
+                        style="max-height:150px; overflow-y:scroll; display:block;">
+                </lightning-datatable>
+                <div class='price-sub-total slds-m-vertical_small'>
+                    <lightning-badge label="Price sub-total:" class="slds-m-horizontal_xx-small"></lightning-badge>
+                    <lightning-formatted-number value={family.totalPrice} format-style="currency" currency-code={currency}></lightning-formatted-number>
+                </div>
+            </div>
+        </template>
+        <template if:true={showEmpty}>
+            <p>No products found.</p>
+        </template>
+    </lightning-card>
+</template>

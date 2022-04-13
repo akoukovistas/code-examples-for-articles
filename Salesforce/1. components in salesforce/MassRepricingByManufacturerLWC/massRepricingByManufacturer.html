@@ -1,0 +1,85 @@
+<template>
+  <lightning-card>
+    <div class="slds-grid">
+      <div class="slds-column slds-size_2-of-3 slds-align_absolute-center slds-grid_vertical slds-grid">
+        <div class="slds-column slds-size_1-of-1 slds-m-bottom_small">
+          <div class="slds-text-heading_small">
+            <h1>Mass Re-Pricing Service</h1>
+          </div>
+        </div>
+        <template if:true={showForm}>
+          <template if:true={isTab}>
+            <div class="slds-column slds-size_1-of-1 slds-m-bottom_small">
+              <lightning-dual-listbox
+                      name="pricebooks"
+                      label="Pricebooks"
+                      source-label="Available"
+                      selected-label="Chosen"
+                      field-level-help="Select at least 1"
+                      options={pricebookOptions}
+                      onchange={handleFormInputChange}
+                      min= 1>
+              </lightning-dual-listbox>
+            </div>
+          </template>
+          <!-- / if:true={isTab} -->
+          <div class="slds-column slds-size_1-of-1 slds-m-bottom_small">
+            <lightning-dual-listbox
+                    name="manufacturers"
+                    label="Manufacturers"
+                    source-label="Available"
+                    selected-label="Chosen"
+                    field-level-help="Select at least 1"
+                    options={manufacturerOptions}
+                    onchange={handleFormInputChange}
+                    min= 1>
+            </lightning-dual-listbox>
+          </div>
+          <div class="slds-column slds-size_1-of-1 slds-m-bottom_small">
+            <div class="dlds-column slds-size_2-of-12">
+              <lightning-input
+                      type="number"
+                      name="percentage"
+                      label="Price increase/decrease in %"
+                      min='-99'
+                      onchange={handleFormInputChange}>
+              </lightning-input>
+            </div>
+          </div>
+          <div class="slds-column slds-size_1-of-1 slds-m-bottom_small">
+            <lightning-button variant="brand" label="Start process" title="Start Process" onclick={startProcess}></lightning-button>
+          </div>
+        </template>
+        <!-- / if:true={showForm} -->
+        <template if:true={jobStarted}>
+          <div class="slds-column slds-size_1-of-1 slds-m-bottom_small">
+            <h2 class='{progressBarHeadingVariant}'>{progressBarHeading}</h2>
+          </div>
+          <div class="slds-column slds-size_1-of-1 slds-m-bottom_small">
+            <lightning-progress-bar value={jobPercentageComplete} size="large"></lightning-progress-bar>
+          </div>
+        </template>
+        <!-- / if:true={jobStarted} -->
+        <template if:true={isJobFinished}>
+          <div class="slds-text-align_left slds-column slds-size_1-of-1 slds-m-bottom_small">
+            <p><span class="slds-text-title_caps"><strong>Batches Processed :</strong></span> {jobStatus.totalItems}</p>
+            <template if:true={hasErrors}>
+              <p><span class="slds-text-title_caps"><strong>Batches Failed :</strong></span> {jobStatus.errorItems}</p>
+            </template>
+          </div>
+          <template if:true={isPricebook}>
+            <div class="slds-column slds-size_1-of-1 slds-m-bottom_small">
+              <lightning-button variant="brand" label="Refresh Pricebook" title="Refresh Pricebook" onclick={fireRefreshView}></lightning-button>
+            </div>
+          </template>
+          <template if:true={isTab}>
+            <div class="slds-column slds-size_1-of-1 slds-m-bottom_small">
+              <lightning-button variant="brand" label="Refresh Service" title="Refresh Service" onclick={resetComponent}></lightning-button>
+            </div>
+          </template>
+        </template>
+        <!-- / if:true={jobStarted} -->
+      </div>
+    </div>
+  </lightning-card>
+</template>

@@ -1,0 +1,59 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="QuoteCopierController">
+    <aura:attribute name="selectedQuote" type="Id" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
+    <aura:attribute name="hideErrorPanel" type="Boolean" default="true"/>
+    <aura:attribute name="errorMessages" type="String[]" default=""/>
+    <aura:attribute name="priceBookId" type="Id"/>
+
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="slds-card">
+        <div class="slds-media slds-media_center slds-has-flexi-truncate slds-p-around_x-small">
+            <div class="slds-media__figure">
+                <lightning:icon iconName="standard:quotes" alternativeText="Quote" />
+            </div>
+            <div class="slds-media__body">
+                <h2 class="slds-card__header-title">
+                    Quote Cloner
+                </h2>
+            </div>
+        </div>
+        <aura:renderIf isTrue="{!v.showSpinner}">
+            <lightning:spinner alternativeText="Processing request" size="medium"/>
+        </aura:renderIf>
+
+        <div class="slds-card__body slds-card__body_inner slds-p-around_x-small  slds-m-below_x-small">
+            <p class="slds-p-bottom_x-small">Choose a Quote from a different Opportunity which will be copied to this Opportunity with all of its line items</p>
+            <aura:renderIf  isTrue="{!v.hideErrorPanel}">
+                <form class="slds-form--stacked" auraid='lookupForm'>
+                    <c:strike_lookup
+                        label="Quote to copy"
+                        object="Quote"
+                        searchField="Name"
+                        placeholder="Seach quotes by name"
+                        order="Name"
+                        limit="5"
+                        loadingMessage="Loading..."
+                        errorMessage="Invalid input"
+                        filter= "{!'OpportunityId !='+ '\''+ v.recordId + '\''+ ' AND Opportunity.Pricebook2Id ='+ '\''+ v.priceBookId + '\'' }"
+
+                        aura:id='strikeQuoteLookup'
+                    />
+                </form>
+            <aura:set attribute="else">
+                <aura:iteration items="{! v.errorMessages }" var="errorMessage">
+                    <c:errorPanel errorMessage="{! errorMessage }"/>
+                </aura:iteration>
+            </aura:set>
+            </aura:renderIf>
+        </div>
+        <!-- /card-body -->
+        <div class="slds-card__footer slds-align_absolute-center">
+            <lightning:button variant="brand" label="Proceed" title="Proceed with the copy" onclick="{! c.handleCopy }" />
+        </div>
+        <!-- /card-footer -->
+    </div>
+    <!-- /card -->
+</aura:component>
