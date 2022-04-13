@@ -5,12 +5,14 @@ A collection of code snippets I plan on talking about @ https://alexandros.work,
 
 Feel free to use any of the cod here and reach out to me at https://twitter.com/koukovistas with any questions.
 
-##(Conceptual) Table of Contents:
-###PHP
+(Conceptual) Table of Contents:
+
+PHP
 1. Doctrine Entities and making use of traits.
 2. How to set up a distributed configuration.
 3. Creating a route to dynamically generate your robots.txt. 
-###SalesForce
+
+SalesForce
 1. Components in salesforce Aura VS LWS.
 2. Using PriceBooks and implementing a mass repricing service.
 3. Using SalesForce triggers.
