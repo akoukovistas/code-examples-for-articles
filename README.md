@@ -16,3 +16,8 @@ SalesForce
 1. Components in salesforce Aura VS LWS.
 2. Using PriceBooks and implementing a mass repricing service.
 3. Using SalesForce triggers.
+
+WordPress
+1. Building a product scraper for WooCommerce.
+2. Working with webhooks and WordPress.
+3. Extending the WooCommerce API.
